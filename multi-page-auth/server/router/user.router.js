@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
         if(users.length < 0){
             return res.status(404).send({ message: 'Threre are no users.' })
         }
-        res.status(200).send({ message: "Succes!", users })
+        res.status(200).send({ message: "Success!", users })
     }
     catch(e){
         res.status(500).send({ message: "Internal server error." })
@@ -32,7 +32,7 @@ router.post('/singup', async (req, res) => {
         res.status(201).send({ message: "User is created.", token })
     }
     catch(e){
-        res.status(500).send({ message: "Internal server error.", e })
+        res.status(500).send({ message: "Internal server error." })
     }
 })
 
@@ -50,6 +50,11 @@ router.post('/login', async (req, res) => {
     catch(e){
         res.status(500).send({ message: e.message || "Internal server error." })
     }
+})
+
+// view profile
+router.get('/me', auth, async (req, res) => {
+    res.status(200).send({ message: "Success!", user: req.user })
 })
 
 // logout

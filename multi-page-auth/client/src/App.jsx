@@ -5,7 +5,7 @@ import Profile from './pages/Profile'
 import EditProfile from './pages/EditProfile'
 import Signin from './pages/Signin'
 import Login from './pages/Login'
-import { action } from './api/api'
+import { action, loader } from './api/api'
 
 const router = createBrowserRouter([
   {
@@ -15,6 +15,8 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Profile />,
+        loader: async () => await loader('user/me'),
+        id: 'profile',
       },
       {
         path: 'edit',
@@ -23,7 +25,7 @@ const router = createBrowserRouter([
       {
         path: 'signin',
         element: <Signin />,
-        action: async ({request}) => await action('user/singup', request)
+        action: async ({request}) => await action('user/singup', request, 'POST')
       },
       {
         path: 'login',
