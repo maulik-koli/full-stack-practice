@@ -1,0 +1,83 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    display: flex;
+}
+
+.ope {
+    width: 50vw;
+    height: 100vh;
+    background-color: blueviolet;
+    border: 1vw solid black;
+    box-sizing: border-box;
+}
+
+.res {
+    width: 50vw;
+    height: 100vh;
+    background-color: crimson;
+    border: 1vw solid black;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+
+.res p {
+    font-size: larger;
+}
+
+ul {
+    margin-top: 5vh;
+    list-style: none;
+}
+
+ul li {
+    display: flex;
+    gap: 1.5vw;
+}
+
+ul li p {
+    width: 8rem;
+}
+
+#for-id {
+    width: 16rem;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+input {
+    margin-top: 2vh;
+    height: 4.5vh;
+    width: 75%;
+    background-color: darkblue;
+    color: lightblue;
+    border: rgba(255, 255, 0, 0.484) solid 2px;
+}
+
+.btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10vh;
+}
+
+.btns button {
+    height: 3.5vh;
+    width: 7vw;
+    margin: 1.5em;
+    background-color: crimson;
+    color: rgb(255, 255, 255);
+}
+
+.btns button:hover {
+    background-color: rgb(90, 0, 18);
+    color: rgb(145, 145, 145);
+}
