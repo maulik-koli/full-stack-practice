@@ -58,7 +58,7 @@ router.get('/me', auth, async (req, res) => {
 })
 
 // logout
-router.post('/hey', auth, async (req, res) => {
+router.post('/logout', auth, async (req, res) => {
     try{
         req.user.token = null
         await req.user.save()

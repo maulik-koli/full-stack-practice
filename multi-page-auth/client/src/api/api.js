@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom"
-import { setCookies, getCookie } from "../utils/auth"
+import { setCookies, getCookie, deleteCookie } from "../utils/auth"
 
 const BASE_URL = "http://localhost:3000/"
 
@@ -20,7 +20,6 @@ export const action = async (url, request, method) => {
         },
         body: JSON.stringify(reqData)
     })
-    console.log(response)
 
     if(!response.ok){
         return response
@@ -30,11 +29,59 @@ export const action = async (url, request, method) => {
     return redirect('/')
 }
 
+export const userAction = async (url, request, method) => {
+    let redirectUrl = '/profile'
+    if(request.method === 'PATCH') url+='update'
+    if(request.method === 'POST') {
+        url+='logout'
+        redirectUrl='/auth/login'
+    }
+    if(request.method === 'DELETE') {
+        url+='delete'
+        redirectUrl='/auth/signin'
+    }
+
+    const token = getCookie('token')
+    if(!token){
+        return redirect('/auth/login')
+    }
+
+    const data = await request.formData()
+    const expectedFields = ['name', 'email', 'password']
+
+    const reqData = {}
+    expectedFields.forEach(field => {
+        const value = data.get(field)
+        if (value) reqData[field] = value
+    })
+
+    const response = await fetch(BASE_URL+url, {
+        method,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(reqData)
+    })
+
+    if(!response.ok){
+        return response
+    }
+    
+    if(method === 'POST' || method === 'DELETE'){
+        deleteCookie('token')
+        return redirect(redirectUrl)
+    }
+    else{
+        return response
+    }
+}
+
 export const loader = async (url) => {
     const token = getCookie('token')
 
     if(!token){
-        return redirect('login')
+        return redirect('/auth/login')
     }
 
     const response = await fetch(BASE_URL+url, {
@@ -44,10 +91,10 @@ export const loader = async (url) => {
             'Authorization': `Bearer ${token}`
         },
     })
-    console.log(response)
 
     if(!response.ok){
-        return ({ message: "Could not fetch user." }, { status: 500 })
+        const errorData = await response.json()
+        return ({ message: "Could not fetch user." }, { status: errorData.status })
     }
     else{
         const resData = await response.json()

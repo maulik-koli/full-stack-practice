@@ -1,3 +1,5 @@
+import { redirect } from "react-router-dom"
+
 export const setCookies = (name, value) => {
     const d = new Date()
     d.setTime(d.getTime() + (60 * 60 * 1000))
@@ -14,6 +16,10 @@ export const getCookie = (name) => {
     }
     return undefined
 }
+
+export const authLoadder = () => {
+    return getCookie('token')
+} 
 
 export const deleteCookie = (name, path = '/') => {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=${path}`

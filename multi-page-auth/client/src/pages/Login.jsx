@@ -1,10 +1,15 @@
 import React from 'react'
+import ProfileForm from '../components/ProfileForm'
+import { useActionData } from 'react-router-dom'
 
 const Login = () => {
+  const data = useActionData()
   return (
-    <h1>
-      login
-    </h1>
+    <div>
+        <h2>Registration Form</h2>
+        <ProfileForm method='POST' isLogin  />
+        {data && data.message && <p>{data.message}</p>}
+    </div>
   )
 }
 
